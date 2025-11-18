@@ -1,0 +1,7 @@
+db.host = localhost
+db.port = 5432
+db.name = db_name
+db.username = username
+db.password = pass
+
+server.port = 8080
