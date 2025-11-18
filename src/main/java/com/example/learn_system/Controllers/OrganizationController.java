@@ -3,6 +3,7 @@ package com.example.learn_system.Controllers;
 import com.example.learn_system.Services.OrganizationServiceImpl;
 import com.example.learn_system.dto.OrganizationDto.OrganizationDTO;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "api/organizations")
+@Tag(name = "Organization controller")
 public class OrganizationController {
 
     private final OrganizationServiceImpl organizationService;
