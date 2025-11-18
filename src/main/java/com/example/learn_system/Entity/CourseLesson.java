@@ -6,6 +6,7 @@ import lombok.Data;
 @Entity
 @Data
 @Table (name = "course_lessons")
+// TODO разобраться с каскадами (нужны / нет)
 public class CourseLesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +19,6 @@ public class CourseLesson {
     private Long hours;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id")
+    @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 }

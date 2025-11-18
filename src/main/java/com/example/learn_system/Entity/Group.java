@@ -9,6 +9,7 @@ import java.util.Set;
 @Entity
 @Data
 @Table(name = "groups")
+// TODO разобраться с каскадами (нужны / нет)
 public class Group {
     @Id
     private Long id;
@@ -23,6 +24,7 @@ public class Group {
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
-    @ManyToMany(mappedBy = "groups",fetch = FetchType.LAZY)
-    private Set<Employee> members;
+    // С этой строкой может быть рекурсия (потом протестить)
+//    @ManyToMany(mappedBy = "groups",fetch = FetchType.LAZY)
+//    private Set<Employee> members;
 }

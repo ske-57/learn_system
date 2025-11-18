@@ -11,6 +11,6 @@ public class Organization {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", unique = false, length = 256)
+    @Column(name = "name", nullable = false , length = 256)
     private String name;
 }
