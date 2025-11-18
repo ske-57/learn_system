@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/employees")
+@RequestMapping(value = "api/employees")
 @Tag(name = "Employee controller")
 public class EmployeeController {
 
