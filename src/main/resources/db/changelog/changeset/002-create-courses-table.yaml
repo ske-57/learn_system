@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-create-courses
+      author: arseniy
+      changes:
+        - createTable:
+            tableName: courses
+            columns:
+              - column:
+                  name: id
+                  type: SERIAL
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_courses
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(512)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: hours
+                  type: INTEGER
+              - column:
+                  name: mark
+                  type: VARCHAR(32)

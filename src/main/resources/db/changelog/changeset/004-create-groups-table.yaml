@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-create-groups
+      author: arseniy
+      changes:
+        - createTable:
+            tableName: groups
+            columns:
+              - column:
+                  name: id
+                  type: INTEGER
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_groups
+                    nullable: false
+              - column:
+                  name: start_date
+                  type: DATE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: end_date
+                  type: DATE
+              - column:
+                  name: course_id
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_groups_courses
+            baseTableName: groups
+            baseColumnNames: course_id
+            referencedTableName: courses
+            referencedColumnNames: id

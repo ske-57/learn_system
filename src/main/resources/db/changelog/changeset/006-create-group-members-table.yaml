@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: 006-create-group-members
+      author: arseniy
+      changes:
+        - createTable:
+            tableName: group_members
+            columns:
+              - column:
+                  name: employee_id
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+              - column:
+                  name: group_id
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            constraintName: pk_group_members
+            tableName: group_members
+            columnNames: employee_id, group_id
+        - addForeignKeyConstraint:
+            constraintName: fk_group_members_employees
+            baseTableName: group_members
+            baseColumnNames: employee_id
+            referencedTableName: employees
+            referencedColumnNames: id
+        - addForeignKeyConstraint:
+            constraintName: fk_group_members_groups
+            baseTableName: group_members
+            baseColumnNames: group_id
+            referencedTableName: groups
+            referencedColumnNames: id

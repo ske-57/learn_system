@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: 007-create-indexes
+      author: arseniy
+      changes:
+        - createIndex:
+            tableName: employees
+            indexName: idx_employees_organization_id
+            columns:
+              - column:
+                  name: organization_id
+        - createIndex:
+            tableName: groups
+            indexName: idx_groups_course_id
+            columns:
+              - column:
+                  name: course_id
+        - createIndex:
+            tableName: course_lessons
+            indexName: idx_course_lessons_course_id
+            columns:
+              - column:
+                  name: course_id
+        - createIndex:
+            tableName: group_members
+            indexName: idx_group_members_employee_id
+            columns:
+              - column:
+                  name: employee_id
+        - createIndex:
+            tableName: group_members
+            indexName: idx_group_members_group_id
+            columns:
+              - column:
+                  name: group_id
