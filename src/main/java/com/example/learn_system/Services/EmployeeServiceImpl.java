@@ -4,11 +4,9 @@ import com.example.learn_system.Entity.Employee;
 import com.example.learn_system.Repository.EmployeeRepository;
 import com.example.learn_system.Services.interfaces.EmployeeService;
 import com.example.learn_system.dto.EmployeeDto.EmployeeDTO;
-import com.example.learn_system.dto.EmployeeDto.SimpleEmployeeDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
