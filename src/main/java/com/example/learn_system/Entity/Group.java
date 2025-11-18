@@ -24,10 +24,5 @@ public class Group {
     private Course course;
 
     @ManyToMany(mappedBy = "groups",fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "group_members",
-            joinColumns = @JoinColumn(name = "group_id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "employee_id", nullable = false)
-    )
     private Set<Employee> members;
 }
