@@ -1,5 +1,6 @@
 package com.example.learn_system.dto.EmployeeDto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -14,14 +15,21 @@ public class EmployeeCreateDTO {
     private String name;
 
     @NotBlank(message = "Lastname is required")
+    @JsonProperty(value = "last_name")
     private String lastName;
 
+    @JsonProperty(value = "middle_name")
     private String middleName;
+
     private String snils;
+
+    @JsonProperty(value = "birth_date")
     private LocalDate birthDate;
+
     private String grade;
 
     @NotNull(message = "Organization id is required")
+    @JsonProperty(value = "organization_id")
     private Long organizationId;
 
     private String phone;
@@ -32,5 +40,6 @@ public class EmployeeCreateDTO {
     @NotBlank(message = "Education is required")
     private String education;
 
+    @JsonProperty(value = "is_active")
     private Boolean isActive = true;
 }
