@@ -1,8 +1,10 @@
 package com.example.learn_system.Services;
 
 import com.example.learn_system.Entity.Course;
+import com.example.learn_system.Exceptions.ValidationException;
 import com.example.learn_system.Repository.CourseRepository;
 import com.example.learn_system.Services.interfaces.CourseService;
+import com.example.learn_system.dto.CourseDto.CourseCreateDTO;
 import com.example.learn_system.dto.CourseDto.CourseDTO;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +20,27 @@ public class CourseServiceImpl implements CourseService {
         this.courseRepository = courseRepository;
     }
 
-    private static CourseDTO toResponse(Course c) {
+
+    @Override
+    public List<CourseDTO> getAllCourses() {
+        List<Course> list = courseRepository.findAll();
+
+        return list.stream()
+                .map(CourseServiceImpl::toCourseResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public CourseDTO createCourse(CourseCreateDTO req) {
+        if (!validate(req)) throw new ValidationException("Course name is null or empty");
+
+        Course course = toCourseEntity(req);
+
+        return toCourseResponse(courseRepository.save(course));
+    }
+
+
+    private static CourseDTO toCourseResponse(Course c) {
         if (c == null) return null;
 
         CourseDTO dto = new CourseDTO();
@@ -30,13 +52,15 @@ public class CourseServiceImpl implements CourseService {
         return dto;
     }
 
+    private static Course toCourseEntity(CourseCreateDTO req) {
+        Course course = new Course();
+        course.setName(req.getName());
+        course.setMark(req.getMark());
 
-    @Override
-    public List<CourseDTO> getAllCourses() {
-        List<Course> list = courseRepository.findAll();
+        return course;
+    }
 
-        return list.stream()
-                .map(CourseServiceImpl::toResponse)
-                .collect(Collectors.toList());
+    private static boolean validate(CourseCreateDTO req) {
+        return req.getName() != null && !req.getName().isEmpty();
     }
 }
