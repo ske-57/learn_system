@@ -1,6 +1,5 @@
 package com.example.learn_system.Controllers;
 
-import com.example.learn_system.Entity.CourseLesson;
 import com.example.learn_system.Exceptions.BusinessException;
 import com.example.learn_system.Exceptions.ResourceNotFoundException;
 import com.example.learn_system.Exceptions.ValidationException;

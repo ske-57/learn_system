@@ -7,7 +7,6 @@ import com.example.learn_system.Exceptions.ResourceNotFoundException;
 import com.example.learn_system.Exceptions.ValidationException;
 import com.example.learn_system.Repository.CourseRepository;
 import com.example.learn_system.Repository.GroupRepository;
-import com.example.learn_system.Services.interfaces.CourseService;
 import com.example.learn_system.Services.interfaces.GroupService;
 import com.example.learn_system.dto.GroupDto.CreateGroupDTO;
 import com.example.learn_system.dto.GroupDto.GroupDTO;

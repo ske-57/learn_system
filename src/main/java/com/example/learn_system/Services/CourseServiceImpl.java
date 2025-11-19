@@ -1,7 +1,6 @@
 package com.example.learn_system.Services;
 
 import com.example.learn_system.Entity.Course;
-import com.example.learn_system.Exceptions.ConflictException;
 import com.example.learn_system.Exceptions.ResourceNotFoundException;
 import com.example.learn_system.Exceptions.ValidationException;
 import com.example.learn_system.Repository.CourseRepository;

@@ -7,8 +7,6 @@ import com.example.learn_system.Exceptions.ValidationException;
 import com.example.learn_system.Repository.CourseLessonRepository;
 import com.example.learn_system.Repository.CourseRepository;
 import com.example.learn_system.Services.interfaces.CourseLessonService;
-import com.example.learn_system.dto.CourseDto.CourseCreateDTO;
-import com.example.learn_system.dto.CourseDto.CourseWithLessonsDTO;
 import com.example.learn_system.dto.CourseLessonDto.CourseLessonCreateDTO;
 import com.example.learn_system.dto.CourseLessonDto.CourseLessonDTO;
 import org.springframework.stereotype.Service;
