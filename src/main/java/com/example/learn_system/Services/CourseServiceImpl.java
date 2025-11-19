@@ -1,6 +1,7 @@
 package com.example.learn_system.Services;
 
 import com.example.learn_system.Entity.Course;
+import com.example.learn_system.Exceptions.ConflictException;
 import com.example.learn_system.Exceptions.ResourceNotFoundException;
 import com.example.learn_system.Exceptions.ValidationException;
 import com.example.learn_system.Repository.CourseRepository;
@@ -8,6 +9,7 @@ import com.example.learn_system.Services.interfaces.CourseService;
 import com.example.learn_system.dto.CourseDto.CourseCreateDTO;
 import com.example.learn_system.dto.CourseDto.CourseDTO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,6 +48,17 @@ public class CourseServiceImpl implements CourseService {
                 new ResourceNotFoundException("COURSE", id));
 
         return toCourseResponse(course);
+    }
+
+    @Override
+    @Transactional
+    public void updateCourseHours(Long courseId, Long hours) {
+        if (hours <= 0) throw new ValidationException("Hours cant be less than zero or equals it");
+
+        Course course = courseRepository.findById(courseId).orElseThrow(() ->
+                new ResourceNotFoundException("COURSE", courseId));
+
+        courseRepository.updateCourseHours(course.getId(), hours);
     }
 
 

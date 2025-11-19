@@ -1,11 +1,16 @@
 package com.example.learn_system.Controllers;
 
+import com.example.learn_system.Entity.CourseLesson;
 import com.example.learn_system.Exceptions.BusinessException;
 import com.example.learn_system.Exceptions.ResourceNotFoundException;
 import com.example.learn_system.Exceptions.ValidationException;
 import com.example.learn_system.Services.CourseServiceImpl;
+import com.example.learn_system.Services.interfaces.CourseLessonService;
+import com.example.learn_system.Services.interfaces.CourseService;
 import com.example.learn_system.dto.CourseDto.CourseCreateDTO;
 import com.example.learn_system.dto.CourseDto.CourseDTO;
+import com.example.learn_system.dto.CourseLessonDto.CourseLessonCreateDTO;
+import com.example.learn_system.dto.CourseLessonDto.CourseLessonDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -22,10 +27,12 @@ import java.util.Map;
 @Tag(name = "Course controller")
 public class CourseController {
 
-    private final CourseServiceImpl courseService;
+    private final CourseService courseService;
+    private final CourseLessonService courseLessonService;
 
-    public CourseController(CourseServiceImpl courseService) {
+    public CourseController(CourseServiceImpl courseService, CourseLessonService courseLessonService) {
         this.courseService = courseService;
+        this.courseLessonService = courseLessonService;
     }
 
     @GetMapping
@@ -58,6 +65,23 @@ public class CourseController {
         try {
             CourseDTO courseDTO = courseService.getById(id);
             return ResponseEntity.status(HttpStatus.OK).body(courseDTO);
+        } catch (ResourceNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionToJson(ex));
+        }
+    }
+
+    @PostMapping(value = "{id}/lessons")
+    @Operation(description = "Adding one lesson to course")
+    public ResponseEntity<?> addLessonToCourse(@PathVariable Long id, @RequestBody CourseLessonCreateDTO req) {
+
+        try {
+            CourseLessonDTO lesson = courseLessonService.addLessonToCourse(id, req);
+            courseService.updateCourseHours(id, lesson.getHours());
+            return ResponseEntity.status(HttpStatus.CREATED).body(lesson);
+
+        } catch (ValidationException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionToJson(ex));
+
         } catch (ResourceNotFoundException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionToJson(ex));
         }

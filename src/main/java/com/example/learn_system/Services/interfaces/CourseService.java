@@ -2,6 +2,7 @@ package com.example.learn_system.Services.interfaces;
 
 import com.example.learn_system.dto.CourseDto.CourseCreateDTO;
 import com.example.learn_system.dto.CourseDto.CourseDTO;
+import com.example.learn_system.dto.CourseDto.CourseWithLessonsDTO;
 
 import java.util.List;
 
@@ -9,4 +10,5 @@ public interface CourseService {
     List<CourseDTO> getAllCourses();
     CourseDTO createCourse(CourseCreateDTO req);
     CourseDTO getById(Long id);
+    void updateCourseHours(Long courseId, Long hours);
 }
