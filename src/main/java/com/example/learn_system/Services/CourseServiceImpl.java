@@ -1,6 +1,7 @@
 package com.example.learn_system.Services;
 
 import com.example.learn_system.Entity.Course;
+import com.example.learn_system.Exceptions.ResourceNotFoundException;
 import com.example.learn_system.Exceptions.ValidationException;
 import com.example.learn_system.Repository.CourseRepository;
 import com.example.learn_system.Services.interfaces.CourseService;
@@ -37,6 +38,19 @@ public class CourseServiceImpl implements CourseService {
         Course course = toCourseEntity(req);
 
         return toCourseResponse(courseRepository.save(course));
+    }
+
+    @Override
+    public CourseDTO getById(Long id) {
+        Course course = courseRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("COURSE", id));
+
+        return toCourseResponse(course);
+    }
+
+    @Override
+    public boolean existsById(Long id) {
+        return courseRepository.existsById(id);
     }
 
 
