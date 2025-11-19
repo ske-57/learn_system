@@ -11,9 +11,12 @@ import com.example.learn_system.dto.EmployeeDto.EmployeeDTO;
 import com.example.learn_system.dto.EmployeeDto.SimpleEmployeeDTO;
 import com.example.learn_system.dto.GroupDto.CreateGroupDTO;
 import com.example.learn_system.dto.GroupDto.GroupDTO;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -69,10 +72,31 @@ public class GroupController {
         }
     }
 
+    @PostMapping(value = "{groupId}/members")
+    @Operation(description = "Adding employee to group")
+    public ResponseEntity<?> addEmployeeToGroup(@Valid @PathVariable Long groupId,
+                                                @Valid @RequestBody EmployeeJsonId employeeId) {
+        try {
+            groupService.addEmployeeToGroup(groupId, employeeId.getEmployeeId());
+            HashMap<String, Long> result = new HashMap<>();
+            result.put("employee_id", employeeId.getEmployeeId());
+            result.put("group_id", groupId);
+            return ResponseEntity.status(HttpStatus.CREATED).body(result);
+        } catch (ResourceNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionToJson(ex));
+        }
+    }
+
     private static HashMap<String, String> exceptionToJson(BusinessException ex) {
         HashMap<String, String> error = new HashMap<>();
         error.put("errorCode", ex.getErrorCode());
         error.put("message", ex.getMessage());
         return error;
+    }
+
+    @Data
+    private static class EmployeeJsonId {
+        @JsonProperty(value = "employee_id")
+        private Long employeeId;
     }
 }

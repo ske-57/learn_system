@@ -6,11 +6,13 @@ import com.example.learn_system.Exceptions.ConflictException;
 import com.example.learn_system.Exceptions.ResourceNotFoundException;
 import com.example.learn_system.Exceptions.ValidationException;
 import com.example.learn_system.Repository.CourseRepository;
+import com.example.learn_system.Repository.EmployeeRepository;
 import com.example.learn_system.Repository.GroupRepository;
 import com.example.learn_system.Services.interfaces.GroupService;
 import com.example.learn_system.dto.GroupDto.CreateGroupDTO;
 import com.example.learn_system.dto.GroupDto.GroupDTO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,10 +21,12 @@ public class GroupServiceImpl implements GroupService {
 
     private final GroupRepository groupRepository;
     private final CourseRepository courseRepository;
+    private final EmployeeRepository employeeRepository;
 
-    public GroupServiceImpl(GroupRepository groupRepository, CourseRepository courseRepository) {
+    public GroupServiceImpl(GroupRepository groupRepository, CourseRepository courseRepository, EmployeeRepository employeeRepository) {
         this.groupRepository = groupRepository;
         this.courseRepository = courseRepository;
+        this.employeeRepository = employeeRepository;
     }
 
     @Override
@@ -50,6 +54,15 @@ public class GroupServiceImpl implements GroupService {
         group.setCourse(course);
 
         return toGroupResponse(groupRepository.save(group));
+    }
+
+    @Override
+    @Transactional
+    public void addEmployeeToGroup(Long groupId, Long employeeId) {
+        if (!groupRepository.existsById(groupId)) throw new ResourceNotFoundException("GROUP", groupId);
+        if (!employeeRepository.existsById(employeeId)) throw new ResourceNotFoundException("EMPLOYEE", employeeId);
+
+        groupRepository.addEmployeeToGroup(groupId, employeeId);
     }
 
 
