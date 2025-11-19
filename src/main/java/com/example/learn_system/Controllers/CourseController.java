@@ -1,5 +1,6 @@
 package com.example.learn_system.Controllers;
 
+import com.example.learn_system.Exceptions.BusinessException;
 import com.example.learn_system.Exceptions.ResourceNotFoundException;
 import com.example.learn_system.Exceptions.ValidationException;
 import com.example.learn_system.Services.CourseServiceImpl;
@@ -49,6 +50,23 @@ public class CourseController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(error);
         }
+    }
 
+    @GetMapping(value = "{id}")
+    @Operation(description = "Get course by ID")
+    public ResponseEntity<?> getCourseById(@PathVariable Long id) {
+        try {
+            CourseDTO courseDTO = courseService.getById(id);
+            return ResponseEntity.status(HttpStatus.OK).body(courseDTO);
+        } catch (ResourceNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionToJson(ex));
+        }
+    }
+
+    private static HashMap<String, String> exceptionToJson(BusinessException ex) {
+        HashMap<String, String> error = new HashMap<>();
+        error.put("errorCode", ex.getErrorCode());
+        error.put("message", ex.getMessage());
+        return error;
     }
 }

@@ -9,5 +9,4 @@ public interface CourseService {
     List<CourseDTO> getAllCourses();
     CourseDTO createCourse(CourseCreateDTO req);
     CourseDTO getById(Long id);
-    boolean existsById(Long id);
 }

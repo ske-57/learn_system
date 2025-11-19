@@ -48,11 +48,6 @@ public class CourseServiceImpl implements CourseService {
         return toCourseResponse(course);
     }
 
-    @Override
-    public boolean existsById(Long id) {
-        return courseRepository.existsById(id);
-    }
-
 
     private static CourseDTO toCourseResponse(Course c) {
         if (c == null) return null;
