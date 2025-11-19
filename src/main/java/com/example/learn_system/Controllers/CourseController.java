@@ -58,11 +58,11 @@ public class CourseController {
         }
     }
 
-    @GetMapping(value = "{id}")
+    @GetMapping(value = "{courseId}")
     @Operation(description = "Get course by ID")
-    public ResponseEntity<?> getCourseById(@PathVariable Long id) {
+    public ResponseEntity<?> getCourseById(@Valid @PathVariable Long courseId) {
         try {
-            CourseDTO courseDTO = courseService.getById(id);
+            CourseDTO courseDTO = courseService.getById(courseId);
             return ResponseEntity.status(HttpStatus.OK).body(courseDTO);
         } catch (ResourceNotFoundException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionToJson(ex));
@@ -71,7 +71,7 @@ public class CourseController {
 
     @GetMapping(value = "{courseId}/lessons")
     @Operation(description = "Get course lessons by courseID")
-    public ResponseEntity<?> getCourseLessonsById(@PathVariable Long courseId) {
+    public ResponseEntity<?> getCourseLessonsById(@Valid @PathVariable Long courseId) {
 
         try {
             List<CourseLessonDTO> result = courseLessonService.getCourseLessonsByCourseId(courseId);
@@ -84,7 +84,7 @@ public class CourseController {
 
     @PostMapping(value = "{courseId}/lessons")
     @Operation(description = "Adding one lesson to course")
-    public ResponseEntity<?> addLessonToCourse(@PathVariable Long courseId, @RequestBody CourseLessonCreateDTO req) {
+    public ResponseEntity<?> addLessonToCourse(@Valid @PathVariable Long courseId, @Valid @RequestBody CourseLessonCreateDTO req) {
 
         try {
             CourseLessonDTO lesson = courseLessonService.addLessonToCourse(courseId, req);

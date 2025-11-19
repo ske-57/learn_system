@@ -1,14 +1,17 @@
 package com.example.learn_system.Services;
 
 import com.example.learn_system.Entity.Employee;
+import com.example.learn_system.Entity.Group;
 import com.example.learn_system.Entity.Organization;
 import com.example.learn_system.Exceptions.ResourceNotFoundException;
 import com.example.learn_system.Exceptions.ValidationException;
 import com.example.learn_system.Repository.EmployeeRepository;
+import com.example.learn_system.Repository.GroupRepository;
 import com.example.learn_system.Repository.OrganizationRepository;
 import com.example.learn_system.Services.interfaces.EmployeeService;
 import com.example.learn_system.dto.EmployeeDto.EmployeeCreateDTO;
 import com.example.learn_system.dto.EmployeeDto.EmployeeDTO;
+import com.example.learn_system.dto.EmployeeDto.SimpleEmployeeDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,10 +22,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final OrganizationRepository organizationRepository;
+    private final GroupRepository groupRepository;
 
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, OrganizationRepository organizationRepository) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, OrganizationRepository organizationRepository, GroupRepository groupRepository) {
         this.employeeRepository = employeeRepository;
         this.organizationRepository = organizationRepository;
+        this.groupRepository = groupRepository;
     }
 
 
@@ -53,6 +58,17 @@ public class EmployeeServiceImpl implements EmployeeService {
         return toEmployeeDTO(employeeRepository.save(employee));
     }
 
+    @Override
+    public List<SimpleEmployeeDTO> getAllEmployeesByGroupId(Long groupId) {
+        Group group = groupRepository.findById(groupId).orElseThrow(() ->
+                new ResourceNotFoundException("GROUP", groupId));
+
+        List<Employee> employees = employeeRepository.getEmployeesByGroupId(group.getId());
+
+        return employees.stream()
+                .map(EmployeeServiceImpl::toSimpleEmployeeDTO)
+                .toList();
+    }
 
 
     private static EmployeeDTO toEmployeeDTO(Employee e) {
@@ -74,6 +90,22 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (e.getOrganization() != null) {
             dto.setOrganizationId(e.getOrganization().getId());
             dto.setOrganizationName(e.getOrganization().getName());
+        }
+
+        return dto;
+    }
+
+    private static SimpleEmployeeDTO toSimpleEmployeeDTO(Employee e) {
+        SimpleEmployeeDTO dto = new SimpleEmployeeDTO();
+
+        dto.setId(e.getId());
+        dto.setName(e.getName());
+        dto.setLastName(e.getLastName());
+        dto.setMiddleName(e.getMiddleName());
+
+        if (e.getOrganization() != null) {
+            dto.setOrganizationName(e.getOrganization().getName());
+            dto.setOrganizationId(e.getOrganization().getId());
         }
 
         return dto;
