@@ -13,6 +13,8 @@ import com.example.learn_system.dto.CourseLessonDto.CourseLessonCreateDTO;
 import com.example.learn_system.dto.CourseLessonDto.CourseLessonDTO;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CourseLessonServiceImpl implements CourseLessonService {
 
@@ -38,6 +40,19 @@ public class CourseLessonServiceImpl implements CourseLessonService {
         lesson.setCourse(course);
 
         return toLessonResponse(courseLessonRepository.save(lesson));
+    }
+
+    @Override
+    public List<CourseLessonDTO> getCourseLessonsByCourseId(Long courseId) {
+
+        Course course = courseRepository.findById(courseId).orElseThrow(() ->
+                new ResourceNotFoundException("COURSE", courseId));
+
+        List<CourseLesson> list = courseLessonRepository.getCourseLessonsByCourseId(course.getId());
+
+        return list.stream()
+                .map(CourseLessonServiceImpl::toLessonResponse)
+                .toList();
     }
 
     private static CourseLessonDTO toLessonResponse(CourseLesson req) {

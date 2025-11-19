@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface CourseLessonService {
     CourseLessonDTO addLessonToCourse(Long courseId, CourseLessonCreateDTO req);
+    List<CourseLessonDTO> getCourseLessonsByCourseId(Long courseId);
 }
