@@ -1,9 +1,0 @@
-databaseChangeLog:
-  - changeSet:
-      id: 008
-      author: arseniy
-      changes:
-        - dropNotNullConstraint:
-            tableName: employees
-            columnName: education
-            columnDataType: varchar(512)

@@ -19,8 +19,11 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: hours
-                  type: INTEGER
+                  name: conclusion
+                  type: text
               - column:
                   name: mark
                   type: VARCHAR(32)
+              - column:
+                  name: description
+                  type: text

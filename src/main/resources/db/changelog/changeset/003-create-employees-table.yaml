@@ -49,8 +49,6 @@ databaseChangeLog:
               - column:
                   name: education
                   type: VARCHAR(512)
-                  constraints:
-                    nullable: false
               - column:
                   name: is_active
                   type: BOOLEAN

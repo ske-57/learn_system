@@ -13,5 +13,3 @@ databaseChangeLog:
       file: db/changelog/changeset/006-create-group-members-table.yaml
   - include: 
       file: db/changelog/changeset/007-create-indexes.yaml
-  - include:
-      file: db/changelog/changeset/008-drop-not-null-column-education.yaml
